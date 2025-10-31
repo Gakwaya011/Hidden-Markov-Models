@@ -93,34 +93,42 @@ pip install numpy pandas scikit-learn hmmlearn matplotlib seaborn
 
 ## Usage
 
-### Data Structure
-Ensure your data is organized as follows:
+### Data Organization
+The project uses activity-based folders containing timestamped raw sensor recordings:
+
 ```
-project/
-├── traindata/
-│   └── train_data.csv
-├── testdata/
-│   └── test_data.csv
-└── hmm_model.py
+Hidden-Markov-Models/
+├── being_still/          # Raw sensor data for being still
+├── jumping/              # Raw sensor data for jumping
+├── standing/             # Raw sensor data for standing
+├── walking/              # Raw sensor data for walking
+└── testdata/             # Separate test dataset
 ```
 
-### Running the Model
-```python
-# Import required libraries
-from hmmlearn import hmm
-import numpy as np
-import pandas as pd
+Each activity folder contains multiple recordings with timestamps (e.g., `Jump_1-2025-10-25_12-49-38`)
 
-# Load and preprocess data
-# (See implementation code for details)
+### Running the Analysis
 
-# Initialize and train HMM
-model = hmm.GaussianHMM(n_components=4, covariance_type="diag", n_iter=300)
-model.fit(training_features)
+1. **Data Cleaning and Preprocessing:**
+   ```bash
+   jupyter notebook cleaning.ipynb
+   ```
+   This generates `cleaned_data.csv` from the raw activity folders.
 
-# Decode test sequence
-predicted_states = model.predict(test_features)
-```
+2. **Feature Extraction:**
+   The cleaning notebook also produces `features.csv` with extracted time and frequency domain features.
+
+3. **HMM Training and Evaluation:**
+   ```bash
+   jupyter notebook markov_model.ipynb
+   ```
+   This trains the HMM and generates visualizations.
+
+4. **Testing on New Data:**
+   ```bash
+   jupyter notebook new_data_test.ipynb
+   ```
+   Evaluates the trained model on unseen test data.
 
 ## Project Structure
 
